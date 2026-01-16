@@ -1,6 +1,4 @@
-import { useState, useEffect } from 'react';
 import type { Property } from '../types/property';
-import '../styles.css';
 
 type Page = 'landing' | 'playground' | 'summary' | 'upload' | 'processing' | 'issueDetails' | 'home' | 'properties' | 'propertyDetails' | 'contacts' | 'settings';
 
@@ -48,26 +46,6 @@ function PropertySummaryCard({ property, onClick }: PropertySummaryCardProps) {
 }
 
 export default function PropertiesPage({ currentPage, onNavigate }: PropertiesPageProps) {
-  // Initialize theme from localStorage or default to dark, read immediately (not in useEffect)
-  const [isDark, setIsDark] = useState(() => {
-    const savedTheme = localStorage.getItem('theme');
-    return savedTheme ? savedTheme === 'dark' : true; // Default to dark mode
-  });
-
-  useEffect(() => {
-    const html = document.documentElement;
-    if (isDark) {
-      html.setAttribute('data-theme', 'dark');
-      localStorage.setItem('theme', 'dark');
-    } else {
-      html.removeAttribute('data-theme');
-      localStorage.setItem('theme', 'light');
-    }
-  }, [isDark]);
-
-  const toggleTheme = () => {
-    setIsDark(!isDark);
-  };
 
   // Placeholder property data - in production this would come from API/user context
   const properties: Property[] = [
@@ -107,18 +85,7 @@ export default function PropertiesPage({ currentPage, onNavigate }: PropertiesPa
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <header className="px-container-x py-container-y border-b border-border flex justify-end items-center">
-        <button
-          className="font-sans text-xl bg-transparent border-0 cursor-pointer p-2 leading-none transition-opacity hover:opacity-70"
-          onClick={toggleTheme}
-          aria-label="Toggle theme"
-        >
-          {isDark ? '☀️' : '🌙'}
-        </button>
-      </header>
-
-      <main className="max-w-container mx-auto w-full px-container-x py-section-lg flex flex-col gap-12">
+    <main className="max-w-container mx-auto w-full px-container-x py-section-lg flex flex-col gap-12">
         <section>
           <h1 className="font-sans text-2xl font-semibold text-text mb-4">Properties</h1>
           <p className="font-sans text-base font-normal text-muted">
@@ -152,6 +119,5 @@ export default function PropertiesPage({ currentPage, onNavigate }: PropertiesPa
           </section>
         )}
       </main>
-    </div>
   );
 }

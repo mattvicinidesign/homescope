@@ -1,10 +1,9 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import SeverityBadge from '../components/SeverityBadge';
 import FilterPill from '../components/FilterPill';
 import Select from '../components/Select';
 import type { Issue } from '../types/issue';
 import type { SeverityType } from '../components/SeverityBadge';
-import '../styles.css';
 
 type Page = 'landing' | 'playground' | 'summary' | 'upload' | 'processing' | 'issueDetails' | 'home' | 'properties' | 'propertyDetails' | 'contacts' | 'settings';
 
@@ -34,32 +33,12 @@ function IssueCard({ issue, onClick }: IssueCardProps) {
 }
 
 export default function InspectionSummaryPage({ currentPage, onNavigate }: InspectionSummaryPageProps) {
-  // Initialize theme from localStorage or default to dark, read immediately (not in useEffect)
-  const [isDark, setIsDark] = useState(() => {
-    const savedTheme = localStorage.getItem('theme');
-    return savedTheme ? savedTheme === 'dark' : true; // Default to dark mode
-  });
   // Check if inspection has been processed (set by ProcessingInspectionPage)
   const hasInspectionData = localStorage.getItem('inspectionProcessed') === 'true';
   // Filter state
   const [selectedFilter, setSelectedFilter] = useState<SeverityType | 'All'>('All');
   // Sort state
   const [sortBy, setSortBy] = useState<'recent' | 'alphabetical' | 'severity'>('recent');
-
-  useEffect(() => {
-    const html = document.documentElement;
-    if (isDark) {
-      html.setAttribute('data-theme', 'dark');
-      localStorage.setItem('theme', 'dark');
-    } else {
-      html.removeAttribute('data-theme');
-      localStorage.setItem('theme', 'light');
-    }
-  }, [isDark]);
-
-  const toggleTheme = () => {
-    setIsDark(!isDark);
-  };
 
   const handleUploadClick = () => {
     onNavigate('upload');
@@ -198,18 +177,7 @@ export default function InspectionSummaryPage({ currentPage, onNavigate }: Inspe
   const severityTypes: (SeverityType | 'All')[] = ['All', 'Safety', 'Repair', 'Monitor', 'Info'];
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <header className="px-container-x py-container-y border-b border-border flex justify-end items-center">
-        <button
-          className="font-sans text-xl bg-transparent border-0 cursor-pointer p-2 leading-none transition-opacity hover:opacity-70"
-          onClick={toggleTheme}
-          aria-label="Toggle theme"
-        >
-          {isDark ? '☀️' : '🌙'}
-        </button>
-      </header>
-
-      <main className="max-w-container mx-auto w-full px-container-x py-section-lg flex flex-col gap-12">
+    <main className="max-w-container mx-auto w-full px-container-x py-section-lg flex flex-col gap-12">
         <section>
           <h1 className="font-sans text-2xl font-semibold text-text mb-4">Inspection Summary</h1>
           <p className="font-sans text-base font-normal text-muted">
@@ -280,7 +248,6 @@ export default function InspectionSummaryPage({ currentPage, onNavigate }: Inspe
             </button>
           </section>
         )}
-      </main>
-    </div>
+    </main>
   );
 }

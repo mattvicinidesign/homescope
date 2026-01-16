@@ -1,9 +1,7 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import KpiTile from '../components/KpiTile';
-import UserMenu from '../components/UserMenu';
 import type { Property } from '../types/property';
 import type { Issue } from '../types/issue';
-import '../styles.css';
 
 type Page = 'landing' | 'playground' | 'summary' | 'upload' | 'processing' | 'issueDetails' | 'home' | 'properties' | 'propertyDetails' | 'contacts' | 'settings';
 
@@ -13,21 +11,6 @@ interface HomePageProps {
 }
 
 export default function HomePage({ currentPage, onNavigate }: HomePageProps) {
-  const [isDark, setIsDark] = useState(() => {
-    const savedTheme = localStorage.getItem('theme');
-    return savedTheme ? savedTheme === 'dark' : true;
-  });
-
-  useEffect(() => {
-    const html = document.documentElement;
-    if (isDark) {
-      html.setAttribute('data-theme', 'dark');
-      localStorage.setItem('theme', 'dark');
-    } else {
-      html.removeAttribute('data-theme');
-      localStorage.setItem('theme', 'light');
-    }
-  }, [isDark]);
 
   // Placeholder property data - in production this would come from API
   const properties: Property[] = [
@@ -181,15 +164,7 @@ export default function HomePage({ currentPage, onNavigate }: HomePageProps) {
   ];
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <header className="px-container-x py-container-y border-b border-border flex justify-between items-center">
-        <div></div>
-        <div className="flex items-center gap-layout">
-          <UserMenu onNavigate={onNavigate} isDark={isDark} onThemeChange={setIsDark} />
-        </div>
-      </header>
-
-      <main className="max-w-container mx-auto w-full px-container-x py-section-lg flex flex-col gap-12">
+    <main className="max-w-container mx-auto w-full px-container-x py-section-lg flex flex-col gap-12">
         <section>
           <h1 className="font-sans text-2xl font-semibold text-text mb-4">Home</h1>
           <p className="font-sans text-base font-normal text-muted">
@@ -253,7 +228,6 @@ export default function HomePage({ currentPage, onNavigate }: HomePageProps) {
             Upload a report
           </button>
         </section>
-      </main>
-    </div>
+    </main>
   );
 }

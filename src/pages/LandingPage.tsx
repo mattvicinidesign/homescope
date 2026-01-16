@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import DealSummaryCard from '../components/DealSummaryCard';
 
 type Page = 'landing' | 'playground' | 'summary' | 'upload' | 'processing' | 'issueDetails' | 'home' | 'properties' | 'propertyDetails' | 'contacts' | 'settings';
@@ -9,66 +8,8 @@ interface LandingPageProps {
 }
 
 export default function LandingPage({ currentPage, onNavigate }: LandingPageProps) {
-  // Initialize theme from localStorage or default to dark, read immediately (not in useEffect)
-  const [isDark, setIsDark] = useState(() => {
-    const savedTheme = localStorage.getItem('theme');
-    return savedTheme ? savedTheme === 'dark' : true; // Default to dark mode
-  });
-
-  useEffect(() => {
-    const html = document.documentElement;
-    if (isDark) {
-      html.setAttribute('data-theme', 'dark');
-      localStorage.setItem('theme', 'dark');
-    } else {
-      html.removeAttribute('data-theme');
-      localStorage.setItem('theme', 'light');
-    }
-  }, [isDark]);
-
-  const toggleTheme = () => {
-    setIsDark(!isDark);
-  };
-
   return (
-    <div className="min-h-screen flex flex-col">
-      <header className="px-container-x py-container-y border-b border-border flex justify-between items-center">
-        <nav className="flex gap-layout items-center">
-          <button
-            onClick={() => onNavigate('playground')}
-            className={`font-sans text-base font-medium cursor-pointer transition-opacity hover:opacity-70 ${
-              currentPage === 'playground' ? 'text-text' : 'text-muted'
-            }`}
-          >
-            HomeScope Playground
-          </button>
-          <span className="text-muted">|</span>
-          <button
-            onClick={() => onNavigate('summary')}
-            className={`font-sans text-base font-medium cursor-pointer transition-opacity hover:opacity-70 ${
-              currentPage === 'summary' ? 'text-text' : 'text-muted'
-            }`}
-          >
-            Inspection Summary
-          </button>
-          <span className="text-muted">|</span>
-          <button
-            onClick={() => onNavigate('upload')}
-            className={`font-sans text-base font-medium cursor-pointer transition-opacity hover:opacity-70 ${
-              currentPage === 'upload' ? 'text-text' : 'text-muted'
-            }`}
-          >
-            Upload
-          </button>
-        </nav>
-        <button
-          className="font-sans text-xl bg-transparent border-0 cursor-pointer p-2 leading-none transition-opacity hover:opacity-70"
-          onClick={toggleTheme}
-        >
-          {isDark ? '☀️' : '🌙'}
-        </button>
-      </header>
-
+    <>
       <section className="py-section-lg px-container-x text-center">
         <h2 className="font-sans text-2xl font-semibold text-text m-0 mb-4">
           Design System Components
@@ -106,6 +47,6 @@ export default function LandingPage({ currentPage, onNavigate }: LandingPageProp
           Get Started
         </button>
       </section>
-    </div>
+    </>
   );
 }

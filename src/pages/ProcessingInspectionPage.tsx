@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import '../styles.css';
 
 type Page = 'landing' | 'playground' | 'summary' | 'upload' | 'processing' | 'issueDetails' | 'home' | 'properties' | 'propertyDetails' | 'contacts' | 'settings';
 
@@ -9,23 +8,7 @@ interface ProcessingInspectionPageProps {
 }
 
 export default function ProcessingInspectionPage({ currentPage, onNavigate }: ProcessingInspectionPageProps) {
-  // Initialize theme from localStorage or default to dark, read immediately (not in useEffect)
-  const [isDark, setIsDark] = useState(() => {
-    const savedTheme = localStorage.getItem('theme');
-    return savedTheme ? savedTheme === 'dark' : true; // Default to dark mode
-  });
   const [currentStep, setCurrentStep] = useState(0);
-
-  useEffect(() => {
-    const html = document.documentElement;
-    if (isDark) {
-      html.setAttribute('data-theme', 'dark');
-      localStorage.setItem('theme', 'dark');
-    } else {
-      html.removeAttribute('data-theme');
-      localStorage.setItem('theme', 'light');
-    }
-  }, [isDark]);
 
   useEffect(() => {
     // Simulate processing steps
@@ -48,10 +31,6 @@ export default function ProcessingInspectionPage({ currentPage, onNavigate }: Pr
     };
   }, [onNavigate]);
 
-  const toggleTheme = () => {
-    setIsDark(!isDark);
-  };
-
   const steps = [
     { id: 1, label: 'Reading the report' },
     { id: 2, label: 'Identifying issues' },
@@ -59,18 +38,7 @@ export default function ProcessingInspectionPage({ currentPage, onNavigate }: Pr
   ];
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <header className="px-container-x py-container-y border-b border-border flex justify-end items-center">
-        <button
-          className="font-sans text-xl bg-transparent border-0 cursor-pointer p-2 leading-none transition-opacity hover:opacity-70"
-          onClick={toggleTheme}
-          aria-label="Toggle theme"
-        >
-          {isDark ? '☀️' : '🌙'}
-        </button>
-      </header>
-
-      <main className="max-w-container mx-auto w-full px-container-x py-section-lg flex flex-col items-center justify-center min-h-[60vh]">
+    <main className="max-w-container mx-auto w-full px-container-x py-section-lg flex flex-col items-center justify-center min-h-[60vh]">
         <section className="flex flex-col items-center text-center max-w-lg">
           <h1 className="font-sans text-2xl font-semibold text-text mb-4">Analyzing your inspection…</h1>
           <p className="font-sans text-base font-normal text-muted mb-8">
@@ -105,7 +73,6 @@ export default function ProcessingInspectionPage({ currentPage, onNavigate }: Pr
             You can review the summary as soon as it's ready.
           </p>
         </section>
-      </main>
-    </div>
+    </main>
   );
 }

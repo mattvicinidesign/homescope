@@ -1,9 +1,8 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import Tabs from '../components/Tabs';
 import SeverityBadge from '../components/SeverityBadge';
 import type { Property } from '../types/property';
 import type { Issue } from '../types/issue';
-import '../styles.css';
 
 type Page = 'landing' | 'playground' | 'summary' | 'upload' | 'processing' | 'issueDetails' | 'home' | 'properties' | 'propertyDetails' | 'contacts' | 'settings';
 
@@ -35,25 +34,6 @@ function IssueCard({ issue, onClick }: IssueCardProps) {
 
 export default function PropertyDetailsPage({ currentPage, onNavigate, onOpenIssue }: PropertyDetailsPageProps) {
   const [activeTab, setActiveTab] = useState('overview');
-  const [isDark, setIsDark] = useState(() => {
-    const savedTheme = localStorage.getItem('theme');
-    return savedTheme ? savedTheme === 'dark' : true;
-  });
-
-  useEffect(() => {
-    const html = document.documentElement;
-    if (isDark) {
-      html.setAttribute('data-theme', 'dark');
-      localStorage.setItem('theme', 'dark');
-    } else {
-      html.removeAttribute('data-theme');
-      localStorage.setItem('theme', 'light');
-    }
-  }, [isDark]);
-
-  const toggleTheme = () => {
-    setIsDark(!isDark);
-  };
 
   // Get active property from localStorage
   const activePropertyId = localStorage.getItem('activePropertyId');
@@ -146,10 +126,6 @@ export default function PropertyDetailsPage({ currentPage, onNavigate, onOpenIss
     if (onOpenIssue) {
       onOpenIssue(issue);
     }
-  };
-
-  const handleBackClick = () => {
-    onNavigate('properties');
   };
 
   const tabs = [
@@ -267,52 +243,18 @@ export default function PropertyDetailsPage({ currentPage, onNavigate, onOpenIss
 
   if (!property) {
     return (
-      <div className="min-h-screen flex flex-col">
-        <header className="px-container-x py-container-y border-b border-border flex justify-between items-center">
-          <button
-            onClick={handleBackClick}
-            className="font-sans text-base font-medium text-text cursor-pointer transition-opacity hover:opacity-70"
-          >
-            ← Back to Properties
-          </button>
-          <button
-            className="font-sans text-xl bg-transparent border-0 cursor-pointer p-2 leading-none transition-opacity hover:opacity-70"
-            onClick={toggleTheme}
-            aria-label="Toggle theme"
-          >
-            {isDark ? '☀️' : '🌙'}
-          </button>
-        </header>
-        <main className="max-w-container mx-auto w-full px-container-x py-section-lg">
-          <div className="border border-border rounded-md px-container-x py-container-y bg-surface text-center">
-            <p className="font-sans text-base font-normal text-muted">
-              No property selected. Please select a property from the Properties page.
-            </p>
-          </div>
-        </main>
-      </div>
+      <main className="max-w-container mx-auto w-full px-container-x py-section-lg">
+        <div className="border border-border rounded-md px-container-x py-container-y bg-surface text-center">
+          <p className="font-sans text-base font-normal text-muted">
+            No property selected. Please select a property from the Properties page.
+          </p>
+        </div>
+      </main>
     );
   }
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <header className="px-container-x py-container-y border-b border-border flex justify-between items-center">
-        <button
-          onClick={handleBackClick}
-          className="font-sans text-base font-medium text-text cursor-pointer transition-opacity hover:opacity-70"
-        >
-          ← Back to Properties
-        </button>
-        <button
-          className="font-sans text-xl bg-transparent border-0 cursor-pointer p-2 leading-none transition-opacity hover:opacity-70"
-          onClick={toggleTheme}
-          aria-label="Toggle theme"
-        >
-          {isDark ? '☀️' : '🌙'}
-        </button>
-      </header>
-
-      <main className="max-w-container mx-auto w-full px-container-x py-section-lg flex flex-col gap-6">
+    <main className="max-w-container mx-auto w-full px-container-x py-section-lg flex flex-col gap-6">
         {/* Property Header */}
         <section className="property-details-header">
           <div className="property-details-header__primary">
@@ -332,7 +274,6 @@ export default function PropertyDetailsPage({ currentPage, onNavigate, onOpenIss
         <Tabs tabs={tabs} activeTabId={activeTab} onTabChange={setActiveTab}>
           {renderTabContent()}
         </Tabs>
-      </main>
-    </div>
+    </main>
   );
 }

@@ -922,6 +922,36 @@
   margin: 0;
 }
 
+/* TopNav Component */
+.top-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-container-y) var(--space-container-x);
+  border-bottom: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+}
+
+.top-nav__brand {
+  display: flex;
+  align-items: center;
+}
+
+.top-nav__title {
+  font-family: var(--font-family);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-normal);
+  color: var(--color-text);
+  margin: 0;
+}
+
+.top-nav__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-layout);
+}
+
 /* UserMenu Component */
 .user-menu {
   position: relative;

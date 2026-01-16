@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { appTier } from './config/tier';
 import AgentProShell from './components/AgentProShell';
 import BuyerLiteShell from './components/BuyerLiteShell';
@@ -20,6 +20,21 @@ type Page = 'landing' | 'playground' | 'summary' | 'upload' | 'processing' | 'is
 function App() {
   const [currentPage, setCurrentPage] = useState<Page>('home');
   const [activeIssue, setActiveIssue] = useState<Issue | null>(null);
+  const [isDark, setIsDark] = useState(() => {
+    const savedTheme = localStorage.getItem('theme');
+    return savedTheme ? savedTheme === 'dark' : true;
+  });
+
+  useEffect(() => {
+    const html = document.documentElement;
+    if (isDark) {
+      html.setAttribute('data-theme', 'dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      html.removeAttribute('data-theme');
+      localStorage.setItem('theme', 'light');
+    }
+  }, [isDark]);
 
   const renderPage = () => {
     if (currentPage === 'home') {
@@ -44,7 +59,7 @@ function App() {
     }
 
     if (currentPage === 'contacts') {
-      return <ContactsPage currentPage={currentPage} onNavigate={setCurrentPage} />;
+      return <ContactsPage onNavigate={setCurrentPage} />;
     }
 
     if (currentPage === 'settings') {
@@ -85,6 +100,8 @@ function App() {
         <AgentProShell
           currentPage={currentPage}
           onNavigate={setCurrentPage}
+          isDark={isDark}
+          onThemeChange={setIsDark}
         >
           {renderPage()}
         </AgentProShell>
