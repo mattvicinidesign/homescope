@@ -40,21 +40,12 @@ export default function PlaygroundPage({ currentPage, onNavigate }: PlaygroundPa
       <header className="px-container-x py-container-y border-b border-border flex justify-between items-center">
         <nav className="flex gap-layout items-center">
           <button
-            onClick={() => onNavigate('landing')}
-            className={`font-sans text-base font-medium cursor-pointer transition-opacity hover:opacity-70 ${
-              currentPage === 'landing' ? 'text-text' : 'text-muted'
-            }`}
-          >
-            Landing
-          </button>
-          <span className="text-muted">|</span>
-          <button
             onClick={() => onNavigate('playground')}
             className={`font-sans text-base font-medium cursor-pointer transition-opacity hover:opacity-70 ${
               currentPage === 'playground' ? 'text-text' : 'text-muted'
             }`}
           >
-            Playground
+            HomeScope Playground
           </button>
         </nav>
         <button
@@ -68,9 +59,9 @@ export default function PlaygroundPage({ currentPage, onNavigate }: PlaygroundPa
 
       <main className="max-w-container mx-auto w-full px-container-x py-section-lg flex flex-col gap-12">
         <section>
-          <h1 className="font-sans text-2xl font-semibold text-text mb-4">Design System Playground</h1>
+          <h1 className="font-sans text-2xl font-semibold text-text mb-4">HomeScope Playground</h1>
           <p className="font-sans text-base font-normal text-muted">
-            Explore tokens, components, and layout primitives. Toggle the theme to see dark mode in action.
+            A sandbox for testing and validating HomeScope UI components.
           </p>
         </section>
 

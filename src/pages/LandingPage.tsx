@@ -29,21 +29,12 @@ export default function LandingPage({ currentPage, onNavigate }: LandingPageProp
       <header className="px-container-x py-container-y border-b border-border flex justify-between items-center">
         <nav className="flex gap-layout items-center">
           <button
-            onClick={() => onNavigate('landing')}
-            className={`font-sans text-base font-medium cursor-pointer transition-opacity hover:opacity-70 ${
-              currentPage === 'landing' ? 'text-text' : 'text-muted'
-            }`}
-          >
-            Landing
-          </button>
-          <span className="text-muted">|</span>
-          <button
             onClick={() => onNavigate('playground')}
             className={`font-sans text-base font-medium cursor-pointer transition-opacity hover:opacity-70 ${
               currentPage === 'playground' ? 'text-text' : 'text-muted'
             }`}
           >
-            Playground
+            HomeScope Playground
           </button>
         </nav>
         <button
