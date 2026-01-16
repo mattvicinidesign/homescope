@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import DealSummaryCard from '../components/DealSummaryCard';
 
-type Page = 'landing' | 'playground';
+type Page = 'landing' | 'playground' | 'summary';
 
 interface LandingPageProps {
   currentPage: Page;
@@ -35,6 +35,15 @@ export default function LandingPage({ currentPage, onNavigate }: LandingPageProp
             }`}
           >
             HomeScope Playground
+          </button>
+          <span className="text-muted">|</span>
+          <button
+            onClick={() => onNavigate('summary')}
+            className={`font-sans text-base font-medium cursor-pointer transition-opacity hover:opacity-70 ${
+              currentPage === 'summary' ? 'text-text' : 'text-muted'
+            }`}
+          >
+            Inspection Summary
           </button>
         </nav>
         <button

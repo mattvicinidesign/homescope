@@ -3,7 +3,7 @@ import StatusPill from '../components/StatusPill';
 import DealSummaryCard from '../components/DealSummaryCard';
 import '../styles.css';
 
-type Page = 'landing' | 'playground';
+type Page = 'landing' | 'playground' | 'summary';
 
 interface PlaygroundPageProps {
   currentPage: Page;
@@ -46,6 +46,15 @@ export default function PlaygroundPage({ currentPage, onNavigate }: PlaygroundPa
             }`}
           >
             HomeScope Playground
+          </button>
+          <span className="text-muted">|</span>
+          <button
+            onClick={() => onNavigate('summary')}
+            className={`font-sans text-base font-medium cursor-pointer transition-opacity hover:opacity-70 ${
+              currentPage === 'summary' ? 'text-text' : 'text-muted'
+            }`}
+          >
+            Inspection Summary
           </button>
         </nav>
         <button

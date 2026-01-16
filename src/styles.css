@@ -64,6 +64,75 @@
   padding: var(--pills-container-padding);
 }
 
+/* SeverityBadge Component */
+.severity-badge {
+  display: flex;
+  align-items: center;
+  padding: var(--status-pill-padding-y) var(--status-pill-padding-x);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+}
+
+.severity-badge--safety {
+  background-color: var(--color-status-ready);
+}
+
+.severity-badge--repair {
+  background-color: var(--color-status-pending);
+}
+
+.severity-badge--monitor {
+  background-color: var(--color-status-pending);
+  opacity: 0.8;
+}
+
+.severity-badge--info {
+  background-color: var(--color-primary);
+}
+
+.severity-badge__text {
+  font-family: var(--font-family);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-tight);
+  color: var(--color-surface);
+  margin: 0;
+  white-space: nowrap;
+}
+
+/* IssueCard Component */
+.issue-card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.issue-card__title {
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-tight);
+  color: var(--color-text);
+  margin: 0;
+}
+
+.issue-card__description {
+  font-family: var(--font-family);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-tight);
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+.issue-card__badge {
+  align-self: flex-start;
+}
+
 /* Grid utilities for auto-fit patterns */
 .grid-auto-fit-cards {
   grid-template-columns: repeat(auto-fit, minmax(var(--grid-min-col), 1fr));
