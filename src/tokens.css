@@ -44,6 +44,10 @@
   /* Layout Gaps */
   --layout-gap: var(--space-4);
   
+  /* App Shell Layout */
+  --sidenav-width: 200px;
+  --properties-rail-width: 280px;
+  
   /* Grid/Component Layout */
   --grid-min-col: 280px;
   --grid-min-col-small: 100px;

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import DealSummaryCard from '../components/DealSummaryCard';
 
-type Page = 'landing' | 'playground' | 'summary' | 'upload' | 'processing';
+type Page = 'landing' | 'playground' | 'summary' | 'upload' | 'processing' | 'issueDetails' | 'home' | 'properties' | 'propertyDetails' | 'contacts' | 'settings';
 
 interface LandingPageProps {
   currentPage: Page;

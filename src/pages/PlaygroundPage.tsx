@@ -3,7 +3,7 @@ import StatusPill from '../components/StatusPill';
 import DealSummaryCard from '../components/DealSummaryCard';
 import '../styles.css';
 
-type Page = 'landing' | 'playground' | 'summary' | 'upload' | 'processing';
+type Page = 'landing' | 'playground' | 'summary' | 'upload' | 'processing' | 'issueDetails' | 'home' | 'properties' | 'propertyDetails' | 'contacts' | 'settings';
 
 interface PlaygroundPageProps {
   currentPage: Page;

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import '../styles.css';
 
-type Page = 'landing' | 'playground' | 'summary' | 'upload' | 'processing';
+type Page = 'landing' | 'playground' | 'summary' | 'upload' | 'processing' | 'issueDetails' | 'home' | 'properties' | 'propertyDetails' | 'contacts' | 'settings';
 
 interface ProcessingInspectionPageProps {
   currentPage: Page;
@@ -60,35 +60,7 @@ export default function ProcessingInspectionPage({ currentPage, onNavigate }: Pr
 
   return (
     <div className="min-h-screen flex flex-col">
-      <header className="px-container-x py-container-y border-b border-border flex justify-between items-center">
-        <nav className="flex gap-layout items-center">
-          <button
-            onClick={() => onNavigate('playground')}
-            className={`font-sans text-base font-medium cursor-pointer transition-opacity hover:opacity-70 ${
-              currentPage === 'playground' ? 'text-text' : 'text-muted'
-            }`}
-          >
-            HomeScope Playground
-          </button>
-          <span className="text-muted">|</span>
-          <button
-            onClick={() => onNavigate('summary')}
-            className={`font-sans text-base font-medium cursor-pointer transition-opacity hover:opacity-70 ${
-              currentPage === 'summary' ? 'text-text' : 'text-muted'
-            }`}
-          >
-            Inspection Summary
-          </button>
-          <span className="text-muted">|</span>
-          <button
-            onClick={() => onNavigate('upload')}
-            className={`font-sans text-base font-medium cursor-pointer transition-opacity hover:opacity-70 ${
-              currentPage === 'upload' ? 'text-text' : 'text-muted'
-            }`}
-          >
-            Upload
-          </button>
-        </nav>
+      <header className="px-container-x py-container-y border-b border-border flex justify-end items-center">
         <button
           className="font-sans text-xl bg-transparent border-0 cursor-pointer p-2 leading-none transition-opacity hover:opacity-70"
           onClick={toggleTheme}
