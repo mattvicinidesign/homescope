@@ -3,7 +3,7 @@ import StatusPill from '../components/StatusPill';
 import DealSummaryCard from '../components/DealSummaryCard';
 import '../styles.css';
 
-type Page = 'landing' | 'playground' | 'summary';
+type Page = 'landing' | 'playground' | 'summary' | 'upload' | 'processing';
 
 interface PlaygroundPageProps {
   currentPage: Page;
@@ -11,14 +11,11 @@ interface PlaygroundPageProps {
 }
 
 export default function PlaygroundPage({ currentPage, onNavigate }: PlaygroundPageProps) {
-  const [isDark, setIsDark] = useState(false);
-
-  useEffect(() => {
-    // Load theme preference from localStorage
+  // Initialize theme from localStorage or default to dark, read immediately (not in useEffect)
+  const [isDark, setIsDark] = useState(() => {
     const savedTheme = localStorage.getItem('theme');
-    const prefersDark = savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches);
-    setIsDark(prefersDark);
-  }, []);
+    return savedTheme ? savedTheme === 'dark' : true; // Default to dark mode
+  });
 
   useEffect(() => {
     const html = document.documentElement;
@@ -55,6 +52,15 @@ export default function PlaygroundPage({ currentPage, onNavigate }: PlaygroundPa
             }`}
           >
             Inspection Summary
+          </button>
+          <span className="text-muted">|</span>
+          <button
+            onClick={() => onNavigate('upload')}
+            className={`font-sans text-base font-medium cursor-pointer transition-opacity hover:opacity-70 ${
+              currentPage === 'upload' ? 'text-text' : 'text-muted'
+            }`}
+          >
+            Upload
           </button>
         </nav>
         <button

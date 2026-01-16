@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
-import DealSummaryCard from '../components/DealSummaryCard';
+import '../styles.css';
 
 type Page = 'landing' | 'playground' | 'summary' | 'upload' | 'processing';
 
-interface LandingPageProps {
+interface UploadInspectionPageProps {
   currentPage: Page;
   onNavigate: (page: Page) => void;
 }
 
-export default function LandingPage({ currentPage, onNavigate }: LandingPageProps) {
+export default function UploadInspectionPage({ currentPage, onNavigate }: UploadInspectionPageProps) {
   // Initialize theme from localStorage or default to dark, read immediately (not in useEffect)
   const [isDark, setIsDark] = useState(() => {
     const savedTheme = localStorage.getItem('theme');
@@ -28,6 +28,21 @@ export default function LandingPage({ currentPage, onNavigate }: LandingPageProp
 
   const toggleTheme = () => {
     setIsDark(!isDark);
+  };
+
+  const handleFileSelect = () => {
+    // Navigate to processing page
+    onNavigate('processing');
+  };
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    // Navigate to processing page
+    onNavigate('processing');
   };
 
   return (
@@ -64,48 +79,42 @@ export default function LandingPage({ currentPage, onNavigate }: LandingPageProp
         <button
           className="font-sans text-xl bg-transparent border-0 cursor-pointer p-2 leading-none transition-opacity hover:opacity-70"
           onClick={toggleTheme}
+          aria-label="Toggle theme"
         >
           {isDark ? '☀️' : '🌙'}
         </button>
       </header>
 
-      <section className="py-section-lg px-container-x text-center">
-        <h2 className="font-sans text-2xl font-semibold text-text m-0 mb-4">
-          Design System Components
-        </h2>
-        <p className="font-sans text-lg font-normal text-muted m-0">
-          Explore our collection of carefully crafted components
-        </p>
-      </section>
+      <main className="max-w-container mx-auto w-full px-container-x py-section-lg flex flex-col items-center justify-center min-h-[60vh]">
+        <section className="flex flex-col items-center text-center max-w-lg">
+          <h1 className="font-sans text-2xl font-semibold text-text mb-4">Upload Inspection Report</h1>
+          <p className="font-sans text-base font-normal text-muted mb-8">
+            Upload a home inspection PDF. HomeScope will analyze it and summarize key issues.
+          </p>
 
-      <section className="px-container-x py-container-y grid grid-auto-fit-cards gap-layout max-w-container mx-auto w-full">
-        <DealSummaryCard
-          companyName="Acme Corp"
-          series="Series B - Healthcare"
-          statuses={['Ready', 'Verified', 'Pending']}
-        />
-        <DealSummaryCard
-          companyName="TechStart Inc"
-          series="Series A - Fintech"
-          statuses={['Verified', 'Ready']}
-        />
-        <DealSummaryCard
-          companyName="Innovate Labs"
-          series="Seed - SaaS"
-          statuses={['Pending', 'Ready', 'Verified']}
-        />
-        <DealSummaryCard
-          companyName="Matt Vicini"
-          series="Series C - Enterprise"
-          statuses={['Verified', 'Ready']}
-        />
-      </section>
+          <div
+            className="border-2 border-dashed border-border rounded-md p-12 w-full max-w-md mb-6 cursor-pointer transition-opacity hover:opacity-70 bg-surface"
+            onDragOver={handleDragOver}
+            onDrop={handleDrop}
+            onClick={handleFileSelect}
+          >
+            <div className="flex flex-col items-center gap-4">
+              <div className="text-4xl">📄</div>
+              <div className="flex flex-col items-center gap-2">
+                <p className="font-sans text-base font-medium text-text">Drop PDF here</p>
+                <p className="font-sans text-sm font-normal text-muted">or</p>
+                <button className="font-sans text-base font-medium px-6 py-3 bg-button-primary-bg text-surface border-0 rounded-md cursor-pointer transition-opacity hover:opacity-90">
+                  Choose PDF
+                </button>
+              </div>
+            </div>
+          </div>
 
-      <section className="py-section-lg px-container-x text-center mt-auto">
-        <button className="font-sans text-base font-medium px-6 py-3 bg-button-primary-bg text-surface border-0 rounded-md cursor-pointer transition-opacity hover:opacity-90">
-          Get Started
-        </button>
-      </section>
+          <p className="font-sans text-sm font-normal text-muted">
+            Most reports are processed in a few moments.
+          </p>
+        </section>
+      </main>
     </div>
   );
 }

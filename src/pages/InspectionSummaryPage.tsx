@@ -3,7 +3,7 @@ import SeverityBadge from '../components/SeverityBadge';
 import type { SeverityType } from '../components/SeverityBadge';
 import '../styles.css';
 
-type Page = 'landing' | 'playground' | 'summary';
+type Page = 'landing' | 'playground' | 'summary' | 'upload' | 'processing';
 
 interface InspectionSummaryPageProps {
   currentPage: Page;
@@ -29,16 +29,13 @@ function IssueCard({ title, description, severity }: IssueCardProps) {
 }
 
 export default function InspectionSummaryPage({ currentPage, onNavigate }: InspectionSummaryPageProps) {
-  const [isDark, setIsDark] = useState(false);
-  // Placeholder: Set to false to show empty state, true to show inspection data
-  const hasInspectionData = false;
-
-  useEffect(() => {
-    // Load theme preference from localStorage
+  // Initialize theme from localStorage or default to dark, read immediately (not in useEffect)
+  const [isDark, setIsDark] = useState(() => {
     const savedTheme = localStorage.getItem('theme');
-    const prefersDark = savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches);
-    setIsDark(prefersDark);
-  }, []);
+    return savedTheme ? savedTheme === 'dark' : true; // Default to dark mode
+  });
+  // Check if inspection has been processed (set by ProcessingInspectionPage)
+  const hasInspectionData = localStorage.getItem('inspectionProcessed') === 'true';
 
   useEffect(() => {
     const html = document.documentElement;
@@ -56,8 +53,7 @@ export default function InspectionSummaryPage({ currentPage, onNavigate }: Inspe
   };
 
   const handleUploadClick = () => {
-    // Placeholder: Future upload functionality
-    console.log('Upload inspection report');
+    onNavigate('upload');
   };
 
   return (
@@ -80,6 +76,15 @@ export default function InspectionSummaryPage({ currentPage, onNavigate }: Inspe
             }`}
           >
             Inspection Summary
+          </button>
+          <span className="text-muted">|</span>
+          <button
+            onClick={() => onNavigate('upload')}
+            className={`font-sans text-base font-medium cursor-pointer transition-opacity hover:opacity-70 ${
+              currentPage === 'upload' ? 'text-text' : 'text-muted'
+            }`}
+          >
+            Upload
           </button>
         </nav>
         <button
