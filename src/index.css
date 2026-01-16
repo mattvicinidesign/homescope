@@ -1,0 +1,25 @@
+
+/* Tailwind CSS v4 */
+@import "tailwindcss";
+
+
+/* Import design tokens first */
+@import './tokens.css';
+
+/* Import global styles */
+@import './styles.css';
+
+
+/* Reset conflicting default Vite styles */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-family);
+  background-color: var(--color-background);
+  color: var(--color-text);
+  min-height: 100vh;
+}

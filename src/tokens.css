@@ -1,0 +1,80 @@
+/* Design Tokens from Figma "00 – Tokens" page */
+
+:root {
+  /* Colors */
+  --color-background: #ffffff;
+  --color-surface: #ffffff;
+  --color-border: #dee4ec;
+  --color-text: #0f172a;
+  --color-text-muted: #64748b;
+  --color-primary: #255DFF;
+  --color-button-primary-bg: #0f172a;
+  
+  /* Status Colors */
+  --color-status-ready: #e5533d;
+  --color-status-verified: #3fa34d;
+  --color-status-pending: #d08c3a;
+  
+  /* Border Radius */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-pill: 13.091px;
+  
+  /* Spacing */
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-12: 48px;
+  
+  /* Component-Specific Spacing */
+  --status-pill-padding-y: 6.545px;
+  --status-pill-padding-x: 3.273px;
+  --pills-container-padding: 10px;
+  
+  /* Layout Primitives */
+  /* Container */
+  --container-max-width: 1200px;
+  --container-padding-x: var(--space-4);
+  --container-padding-y: var(--space-4);
+  
+  /* Sections */
+  --section-padding-y-lg: var(--space-12);
+  
+  /* Layout Gaps */
+  --layout-gap: var(--space-4);
+  
+  /* Grid/Component Layout */
+  --grid-min-col: 280px;
+  --grid-min-col-small: 100px;
+  --grid-min-col-colors: 200px;
+  
+  /* Typography */
+  --font-family: 'Inter', sans-serif;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-size-sm: 14px;
+  --font-size-base: 16px;
+  --font-size-lg: 18px;
+  --font-size-xl: 20px;
+  --font-size-2xl: 32px;
+  --line-height-tight: 100%;
+}
+
+/* Dark Theme Overrides */
+[data-theme="dark"] {
+  /* Colors */
+  --color-background: #0f172a;
+  --color-surface: #1e293b;
+  --color-border: #334155;
+  --color-text: #f1f5f9;
+  --color-text-muted: #94a3b8;
+  --color-primary: #3b82f6;
+  --color-button-primary-bg: #f1f5f9;
+  
+  /* Status Colors (adjusted for dark contrast) */
+  --color-status-ready: #f87171;
+  --color-status-verified: #4ade80;
+  --color-status-pending: #fbbf24;
+}
