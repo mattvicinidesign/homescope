@@ -1,73 +1,61 @@
-# React + TypeScript + Vite
+# HomeScope
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+HomeScope is a product concept for transforming residential home inspection reports into
+clear, structured, and actionable insights for buyers, sellers, and agents.
 
-Currently, two official plugins are available:
+It focuses on surfacing **issues**, **severity**, and **next steps** — not raw PDFs.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+This repository is scaffolded from the **Atlas Token System**, which provides the underlying
+design system, tokens, and UI primitives.
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Product Intent
 
-## Expanding the ESLint configuration
+Home inspection reports are dense, inconsistent, and difficult for non-experts to interpret.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+HomeScope aims to:
+- Ingest inspection reports (PDFs)
+- Identify and group issues by category and severity
+- Present a clean, issue-centric summary
+- Help users understand *what matters*, *what’s urgent*, and *what it may cost*
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+This repo represents the **frontend product layer**, not the parsing or AI backend.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+---
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## What This Repo Is
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+- A **product scaffold** for HomeScope
+- A Vite + React + TypeScript app
+- Built on a token-driven design system (Atlas)
+- A place to design and validate UX flows before backend integration
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+---
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## What This Repo Is Not
+
+- A finished product
+- A backend or AI pipeline
+- A general-purpose design system (that lives in Atlas)
+
+---
+
+## Design System Foundation (Atlas)
+
+HomeScope is built on the **Atlas Token System**, which provides:
+- Design tokens (color, spacing, typography)
+- CSS variables
+- Tailwind mappings
+- React UI primitives
+- Layout and usage guardrails
+
+Atlas is treated as **infrastructure**, not a product.
+
+---
+
+## Local Development
+
+```bash
+npm install
+npm run dev
