@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
-
-type Page = 'landing' | 'playground' | 'summary' | 'upload' | 'processing' | 'issueDetails' | 'home' | 'properties' | 'propertyDetails' | 'contacts' | 'settings';
+import type { Page } from '@/types/ui';
+import { setInspectionProcessed } from '@/lib/storage/localStorage';
 
 interface ProcessingInspectionPageProps {
   currentPage: Page;
   onNavigate: (page: Page) => void;
 }
 
-export default function ProcessingInspectionPage({ currentPage, onNavigate }: ProcessingInspectionPageProps) {
+export default function ProcessingInspectionPage({ onNavigate }: ProcessingInspectionPageProps) {
   const [currentStep, setCurrentStep] = useState(0);
 
   useEffect(() => {
@@ -19,7 +19,7 @@ export default function ProcessingInspectionPage({ currentPage, onNavigate }: Pr
     // After all steps, navigate to summary and mark as processed
     const complete = setTimeout(() => {
       // Mark that inspection data is available
-      localStorage.setItem('inspectionProcessed', 'true');
+      setInspectionProcessed(true);
       onNavigate('summary');
     }, 3000);
 

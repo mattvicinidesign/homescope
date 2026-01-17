@@ -1,11 +1,11 @@
-type Page = 'landing' | 'playground' | 'summary' | 'upload' | 'processing' | 'issueDetails' | 'home' | 'properties' | 'propertyDetails' | 'contacts' | 'settings';
+import type { Page } from '@/types/ui';
 
 interface UploadInspectionPageProps {
   currentPage: Page;
   onNavigate: (page: Page) => void;
 }
 
-export default function UploadInspectionPage({ currentPage, onNavigate }: UploadInspectionPageProps) {
+export default function UploadInspectionPage({ onNavigate }: UploadInspectionPageProps) {
 
   const handleFileSelect = () => {
     // Navigate to processing page

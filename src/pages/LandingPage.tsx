@@ -1,13 +1,13 @@
 import DealSummaryCard from '../components/DealSummaryCard';
-
-type Page = 'landing' | 'playground' | 'summary' | 'upload' | 'processing' | 'issueDetails' | 'home' | 'properties' | 'propertyDetails' | 'contacts' | 'settings';
+import type { Page } from '@/types/ui';
 
 interface LandingPageProps {
   currentPage: Page;
   onNavigate: (page: Page) => void;
 }
 
-export default function LandingPage({ currentPage, onNavigate }: LandingPageProps) {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export default function LandingPage(_: LandingPageProps) {
   return (
     <>
       <section className="py-section-lg px-container-x text-center">
@@ -22,22 +22,22 @@ export default function LandingPage({ currentPage, onNavigate }: LandingPageProp
       <section className="px-container-x py-container-y grid grid-auto-fit-cards gap-layout max-w-container mx-auto w-full">
         <DealSummaryCard
           companyName="Acme Corp"
-          series="Series B - Healthcare"
+          seriesLabel="Series B - Healthcare"
           statuses={['Ready', 'Verified', 'Pending']}
         />
         <DealSummaryCard
           companyName="TechStart Inc"
-          series="Series A - Fintech"
+          seriesLabel="Series A - Fintech"
           statuses={['Verified', 'Ready']}
         />
         <DealSummaryCard
           companyName="Innovate Labs"
-          series="Seed - SaaS"
+          seriesLabel="Seed - SaaS"
           statuses={['Pending', 'Ready', 'Verified']}
         />
         <DealSummaryCard
           companyName="Matt Vicini"
-          series="Series C - Enterprise"
+          seriesLabel="Series C - Enterprise"
           statuses={['Verified', 'Ready']}
         />
       </section>

@@ -1,8 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { currentUser } from '../config/user';
-import '../styles.css';
-
-type Page = 'landing' | 'playground' | 'summary' | 'upload' | 'processing' | 'issueDetails' | 'home' | 'properties' | 'propertyDetails' | 'contacts' | 'settings';
+import type { Page } from '@/types/ui';
 
 interface UserMenuProps {
   onNavigate: (page: Page) => void;
@@ -84,68 +82,74 @@ export default function UserMenu({ onNavigate, isDark, onThemeChange }: UserMenu
   };
 
   return (
-    <div className="user-menu">
+    <div className="relative inline-block">
       <button
         ref={buttonRef}
         onClick={toggleMenu}
-        className="user-menu__button"
+        className="text-xl bg-transparent border-0 cursor-pointer p-2 leading-none transition-opacity duration-200 flex items-center justify-center hover:opacity-70 focus:outline-2 focus:outline-primary focus:outline-offset-2 focus:rounded-sm"
         aria-label="User menu"
         aria-expanded={isOpen}
         aria-haspopup="true"
       >
-        <span className="user-menu__avatar">👤</span>
+        <span className="flex items-center justify-center w-8 h-8 bg-surface border border-border rounded-full text-lg">
+          👤
+        </span>
       </button>
       {isOpen && (
         <div
           ref={menuRef}
-          className="user-menu__dropdown"
+          className="absolute top-[calc(100%+0.5rem)] right-0 bg-surface border border-border rounded-md min-w-[200px] z-[1000] flex flex-col overflow-visible"
           role="menu"
         >
-          <div className="user-menu__user-info">
-            <p className="user-menu__email">{currentUser.email}</p>
-            <p className="user-menu__role">{currentUser.role}</p>
+          <div className="p-4 flex flex-col gap-2">
+            <p className="text-base font-semibold text-text m-0">{currentUser.email}</p>
+            <p className="text-sm font-normal text-muted m-0">{currentUser.role}</p>
           </div>
-          <div className="user-menu__divider"></div>
-          <div className="user-menu__item-wrapper">
+          <div className="h-px bg-border m-0"></div>
+          <div className="relative">
             <button
               onClick={toggleAppearance}
-              className="user-menu__item user-menu__item--has-submenu"
+              className="text-base font-medium text-text bg-transparent border-0 py-3 px-4 text-left cursor-pointer transition-colors duration-200 flex justify-between items-center w-full hover:bg-background focus:outline-2 focus:outline-primary focus:outline-offset-[-2px]"
               role="menuitem"
               aria-expanded={isAppearanceOpen}
             >
               Appearance
-              <span className="user-menu__submenu-indicator">◀</span>
+              <span className="text-sm text-muted ml-2">◀</span>
             </button>
             {isAppearanceOpen && (
               <div
                 ref={appearanceRef}
-                className="user-menu__submenu"
+                className="absolute right-full top-0 mr-2 bg-surface border border-border rounded-md min-w-[120px] z-[1001] flex flex-col overflow-hidden"
                 role="menu"
               >
                 <button
                   onClick={() => handleThemeSelect('light')}
-                  className={`user-menu__submenu-item ${!isDark ? 'user-menu__submenu-item--selected' : ''}`}
+                  className={`text-base font-medium bg-transparent border-0 py-3 px-4 text-left cursor-pointer transition-colors duration-200 flex justify-between items-center w-full hover:bg-background focus:outline-2 focus:outline-primary focus:-outline-offset-2 ${
+                    !isDark ? 'bg-background text-primary' : 'text-text'
+                  }`}
                   role="menuitemradio"
                   aria-checked={!isDark}
                 >
                   Light
-                  {!isDark && <span className="user-menu__checkmark">✓</span>}
+                  {!isDark && <span className="text-base text-primary ml-2">✓</span>}
                 </button>
                 <button
                   onClick={() => handleThemeSelect('dark')}
-                  className={`user-menu__submenu-item ${isDark ? 'user-menu__submenu-item--selected' : ''}`}
+                  className={`text-base font-medium bg-transparent border-0 py-3 px-4 text-left cursor-pointer transition-colors duration-200 flex justify-between items-center w-full hover:bg-background focus:outline-2 focus:outline-primary focus:-outline-offset-2 ${
+                    isDark ? 'bg-background text-primary' : 'text-text'
+                  }`}
                   role="menuitemradio"
                   aria-checked={isDark}
                 >
                   Dark
-                  {isDark && <span className="user-menu__checkmark">✓</span>}
+                  {isDark && <span className="text-base text-primary ml-2">✓</span>}
                 </button>
               </div>
             )}
           </div>
           <button
             onClick={handleAccountSettings}
-            className="user-menu__item"
+            className="text-base font-medium text-text bg-transparent border-0 py-3 px-4 text-left cursor-pointer transition-colors duration-200 hover:bg-background focus:outline-2 focus:outline-primary focus:outline-offset-[-2px]"
             role="menuitem"
           >
             Account settings

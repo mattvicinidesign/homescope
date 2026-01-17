@@ -1,6 +1,6 @@
-import { useEffect, useRef, ReactNode } from 'react';
+import { useEffect, useRef } from 'react';
+import type { ReactNode } from 'react';
 import type { Issue } from '../types/issue';
-import '../styles.css';
 
 interface FullScreenOverlayProps {
   issue: Issue | null;
@@ -74,12 +74,12 @@ export default function FullScreenOverlay({ issue, onClose, children }: FullScre
   return (
     <div
       ref={overlayRef}
-      className="full-screen-overlay"
+      className="fixed top-0 left-0 right-0 bottom-0 w-screen h-screen bg-background z-[9999] overflow-y-auto"
       role="dialog"
       aria-modal="true"
       aria-labelledby="overlay-title"
     >
-      <div className="full-screen-overlay__content" ref={contentRef}>
+      <div className="min-h-screen flex flex-col" ref={contentRef}>
         {children}
       </div>
     </div>

@@ -1,14 +1,14 @@
 import StatusPill from '../components/StatusPill';
 import DealSummaryCard from '../components/DealSummaryCard';
-
-type Page = 'landing' | 'playground' | 'summary' | 'upload' | 'processing' | 'issueDetails' | 'home' | 'properties' | 'propertyDetails' | 'contacts' | 'settings';
+import type { Page } from '@/types/ui';
 
 interface PlaygroundPageProps {
   currentPage: Page;
   onNavigate: (page: Page) => void;
 }
 
-export default function PlaygroundPage({ currentPage, onNavigate }: PlaygroundPageProps) {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export default function PlaygroundPage(_: PlaygroundPageProps) {
   return (
     <main className="max-w-container mx-auto w-full px-container-x py-section-lg flex flex-col gap-12">
         <section>
@@ -164,32 +164,32 @@ export default function PlaygroundPage({ currentPage, onNavigate }: PlaygroundPa
               <div className="grid grid-auto-fit-cards gap-layout">
                 <DealSummaryCard
                   companyName="Acme Corp"
-                  series="Series B - Healthcare"
+                  seriesLabel="Series B - Healthcare"
                   statuses={['Ready', 'Verified', 'Pending']}
                 />
                 <DealSummaryCard
                   companyName="TechStart Inc"
-                  series="Series A - Fintech"
+                  seriesLabel="Series A - Fintech"
                   statuses={['Verified', 'Ready']}
                 />
                 <DealSummaryCard
                   companyName="Innovate Labs"
-                  series="Seed - SaaS"
+                  seriesLabel="Seed - SaaS"
                   statuses={['Pending', 'Ready', 'Verified']}
                 />
                 <DealSummaryCard
                   companyName="Enterprise Co"
-                  series="Series C - Enterprise"
+                  seriesLabel="Series C - Enterprise"
                   statuses={['Verified']}
                 />
                 <DealSummaryCard
                   companyName="Startup XYZ"
-                  series="Pre-Seed - AI"
+                  seriesLabel="Pre-Seed - AI"
                   statuses={['Ready', 'Pending']}
                 />
                 <DealSummaryCard
                   companyName="Growth Ventures"
-                  series="Series A - E-commerce"
+                  seriesLabel="Series A - E-commerce"
                   statuses={['Verified', 'Ready', 'Pending', 'Verified']}
                 />
               </div>

@@ -1,28 +1,20 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import SeverityBadge from '../components/SeverityBadge';
 import type { Issue } from '../types/issue';
-
-type Page = 'landing' | 'playground' | 'summary' | 'upload' | 'processing' | 'issueDetails' | 'home' | 'properties' | 'propertyDetails' | 'contacts' | 'settings';
+import type { Page } from '@/types/ui';
+import { getSelectedIssue } from '@/lib/storage/localStorage';
 
 interface IssueDetailsPageProps {
   currentPage: Page;
   onNavigate: (page: Page) => void;
 }
 
-export default function IssueDetailsPage({ currentPage, onNavigate }: IssueDetailsPageProps) {
-  const [selectedIssue, setSelectedIssue] = useState<Issue | null>(null);
+export default function IssueDetailsPage({ onNavigate }: IssueDetailsPageProps) {
+  const getInitialIssue = (): Issue | null => {
+    return getSelectedIssue<Issue>();
+  };
 
-  useEffect(() => {
-    // Load selected issue from localStorage
-    const savedIssue = localStorage.getItem('selectedIssue');
-    if (savedIssue) {
-      try {
-        setSelectedIssue(JSON.parse(savedIssue));
-      } catch (e) {
-        console.error('Failed to parse selected issue', e);
-      }
-    }
-  }, []);
+  const [selectedIssue] = useState<Issue | null>(getInitialIssue);
 
   const handleBackToSummary = () => {
     onNavigate('summary');

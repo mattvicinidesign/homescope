@@ -1,4 +1,4 @@
-import type { SeverityType } from '../components/SeverityBadge';
+import type { SeverityType } from './ui';
 
 export interface Issue {
   id: string;

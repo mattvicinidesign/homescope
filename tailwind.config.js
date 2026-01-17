@@ -38,6 +38,9 @@ export default {
         'container-y': 'var(--container-padding-y)',
         'section-lg': 'var(--section-padding-y-lg)',
         'layout': 'var(--layout-gap)',
+        /* Component-specific spacing */
+        'pill-py': 'var(--status-pill-padding-y)',
+        'pill-px': 'var(--status-pill-padding-x)',
       },
       fontFamily: {
         sans: ['var(--font-family)'],

@@ -1,6 +1,4 @@
-import '../styles.css';
-
-type Page = 'landing' | 'playground' | 'summary' | 'upload' | 'processing' | 'issueDetails' | 'home' | 'properties' | 'propertyDetails' | 'contacts' | 'settings';
+import type { Page } from '@/types/ui';
 
 interface SideNavProps {
   currentPage: Page;
@@ -15,19 +13,23 @@ export default function SideNav({ currentPage, onNavigate }: SideNavProps) {
     { id: 'settings' as Page, label: 'Settings' },
   ];
 
+  const isActive = (pageId: Page) => currentPage === pageId;
+
   return (
-    <nav className="side-nav">
-      <div className="side-nav__header">
-        <h1 className="side-nav__title">HomeScope</h1>
+    <nav className="w-[var(--sidenav-width)] h-screen bg-surface border-r border-border flex flex-col p-4 overflow-y-auto">
+      <div className="mb-6">
+        <h1 className="text-xl font-semibold text-text m-0">HomeScope</h1>
       </div>
       
-      <div className="side-nav__main">
+      <div className="flex flex-col gap-2 flex-1">
         {mainNavItems.map((item) => (
           <button
             key={item.id}
             onClick={() => onNavigate(item.id)}
-            className={`side-nav__item ${
-              currentPage === item.id ? 'side-nav__item--active' : ''
+            className={`text-base font-medium text-left cursor-pointer rounded-sm transition-all duration-200 py-3 px-4 ${
+              isActive(item.id)
+                ? 'bg-primary text-surface hover:opacity-90'
+                : 'text-muted bg-transparent border-0 hover:bg-background hover:text-text'
             }`}
           >
             {item.label}
@@ -35,14 +37,18 @@ export default function SideNav({ currentPage, onNavigate }: SideNavProps) {
         ))}
       </div>
 
-      <div className="side-nav__divider"></div>
+      <div className="h-px bg-border my-4"></div>
 
-      <div className="side-nav__internal">
-        <p className="side-nav__section-label">Internal</p>
+      <div className="flex flex-col gap-2">
+        <p className="text-sm font-medium text-muted uppercase tracking-[0.5px] m-0 mb-2 px-4">
+          Internal
+        </p>
         <button
           onClick={() => onNavigate('playground')}
-          className={`side-nav__item ${
-            currentPage === 'playground' ? 'side-nav__item--active' : ''
+          className={`text-base font-medium text-left cursor-pointer rounded-sm transition-all duration-200 py-3 px-4 ${
+            isActive('playground')
+              ? 'bg-primary text-surface hover:opacity-90'
+              : 'text-muted bg-transparent border-0 hover:bg-background hover:text-text'
           }`}
         >
           Playground

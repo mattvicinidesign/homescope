@@ -1,9 +1,7 @@
 import type { ReactNode } from 'react';
 import SideNav from './SideNav';
 import TopNav from './TopNav';
-import '../styles.css';
-
-type Page = 'landing' | 'playground' | 'summary' | 'upload' | 'processing' | 'issueDetails' | 'home' | 'properties' | 'propertyDetails' | 'contacts' | 'settings';
+import type { Page } from '@/types/ui';
 
 interface AgentProShellProps {
   currentPage: Page;
@@ -15,9 +13,9 @@ interface AgentProShellProps {
 
 export default function AgentProShell({ currentPage, onNavigate, isDark, onThemeChange, children }: AgentProShellProps) {
   return (
-    <div className="agent-pro-shell">
+    <div className="flex h-screen">
       <SideNav currentPage={currentPage} onNavigate={onNavigate} />
-      <div className="agent-pro-shell__main">
+      <div className="flex-1 flex flex-col overflow-hidden bg-background">
         <TopNav onNavigate={onNavigate} isDark={isDark} onThemeChange={onThemeChange} />
         {children}
       </div>

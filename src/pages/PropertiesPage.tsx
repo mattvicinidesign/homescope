@@ -1,6 +1,6 @@
 import type { Property } from '../types/property';
-
-type Page = 'landing' | 'playground' | 'summary' | 'upload' | 'processing' | 'issueDetails' | 'home' | 'properties' | 'propertyDetails' | 'contacts' | 'settings';
+import type { Page } from '@/types/ui';
+import { setActivePropertyId } from '@/lib/storage/localStorage';
 
 interface PropertiesPageProps {
   currentPage: Page;
@@ -45,7 +45,7 @@ function PropertySummaryCard({ property, onClick }: PropertySummaryCardProps) {
   );
 }
 
-export default function PropertiesPage({ currentPage, onNavigate }: PropertiesPageProps) {
+export default function PropertiesPage({ onNavigate }: PropertiesPageProps) {
 
   // Placeholder property data - in production this would come from API/user context
   const properties: Property[] = [
@@ -79,7 +79,7 @@ export default function PropertiesPage({ currentPage, onNavigate }: PropertiesPa
 
   const handlePropertyClick = (propertyId: string) => {
     // Store selected property for context
-    localStorage.setItem('activePropertyId', propertyId);
+    setActivePropertyId(propertyId);
     // Navigate to property details
     onNavigate('propertyDetails');
   };

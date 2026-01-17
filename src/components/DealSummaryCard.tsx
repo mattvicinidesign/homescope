@@ -1,27 +1,38 @@
-import '../styles.css';
 import StatusPill from './StatusPill';
-import type { StatusPillStatus } from './StatusPill';
+import type { StatusPillStatus } from '@/types/ui';
 
 export interface DealSummaryCardProps {
-  companyName?: string;
-  series?: string;
-  statuses?: StatusPillStatus[];
+  companyName: string;
+  seriesLabel: string;
+  statuses: StatusPillStatus[];
 }
 
 export default function DealSummaryCard({
-  companyName = 'Acme Corp',
-  series = 'Series B - Healthcare',
-  statuses = ['Ready', 'Verified', 'Pending'],
+  companyName,
+  seriesLabel,
+  statuses,
 }: DealSummaryCardProps) {
   return (
-    <div className="deal-summary-card">
-      <p className="deal-summary-card__company">{companyName}</p>
-      <p className="deal-summary-card__series">{series}</p>
-      <div className="deal-summary-card__pills">
-        {statuses.map((status, index) => (
-          <StatusPill key={index} status={status} />
-        ))}
-      </div>
-    </div>
+    <section
+      className="flex flex-col gap-2 rounded-md border border-border bg-surface px-container-x py-container-y"
+      aria-label="Deal summary"
+    >
+      <header>
+        <p className="text-base font-semibold text-text">
+          {companyName}
+        </p>
+        <p className="text-sm text-muted">
+          {seriesLabel}
+        </p>
+      </header>
+
+      {statuses.length > 0 && (
+        <div className="flex flex-wrap gap-2">
+          {statuses.map(status => (
+            <StatusPill key={status} status={status} />
+          ))}
+        </div>
+      )}
+    </section>
   );
 }

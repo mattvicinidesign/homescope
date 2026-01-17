@@ -1,11 +1,12 @@
-type Page = 'landing' | 'playground' | 'summary' | 'upload' | 'processing' | 'issueDetails' | 'home' | 'properties' | 'propertyDetails' | 'contacts' | 'settings';
+import type { Page } from '@/types/ui';
 
 interface SettingsPageProps {
   currentPage: Page;
   onNavigate: (page: Page) => void;
 }
 
-export default function SettingsPage({ currentPage, onNavigate }: SettingsPageProps) {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export default function SettingsPage(_: SettingsPageProps) {
   return (
     <main className="max-w-container mx-auto w-full px-container-x py-section-lg flex flex-col gap-12">
         <section>

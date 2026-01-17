@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { appTier } from './config/tier';
 import AgentProShell from './components/AgentProShell';
 import BuyerLiteShell from './components/BuyerLiteShell';
@@ -14,31 +14,18 @@ import UploadInspectionPage from './pages/UploadInspectionPage';
 import ProcessingInspectionPage from './pages/ProcessingInspectionPage';
 import IssueDetailsPage from './pages/IssueDetailsPage';
 import type { Issue } from './types/issue';
-
-type Page = 'landing' | 'playground' | 'summary' | 'upload' | 'processing' | 'issueDetails' | 'home' | 'properties' | 'propertyDetails' | 'contacts' | 'settings';
+import type { Page } from './types/ui';
+import { setSelectedIssue } from './lib/storage/localStorage';
+import { useTheme } from './lib/hooks/useTheme';
 
 function App() {
   const [currentPage, setCurrentPage] = useState<Page>('home');
   const [activeIssue, setActiveIssue] = useState<Issue | null>(null);
-  const [isDark, setIsDark] = useState(() => {
-    const savedTheme = localStorage.getItem('theme');
-    return savedTheme ? savedTheme === 'dark' : true;
-  });
-
-  useEffect(() => {
-    const html = document.documentElement;
-    if (isDark) {
-      html.setAttribute('data-theme', 'dark');
-      localStorage.setItem('theme', 'dark');
-    } else {
-      html.removeAttribute('data-theme');
-      localStorage.setItem('theme', 'light');
-    }
-  }, [isDark]);
+  const { isDark, setIsDark } = useTheme();
 
   const renderPage = () => {
     if (currentPage === 'home') {
-      return <HomePage currentPage={currentPage} onNavigate={setCurrentPage} />;
+      return <HomePage onNavigate={setCurrentPage} />;
     }
 
     if (currentPage === 'properties') {
@@ -51,7 +38,7 @@ function App() {
           currentPage={currentPage}
           onNavigate={setCurrentPage}
           onOpenIssue={(issue) => {
-            localStorage.setItem('selectedIssue', JSON.stringify(issue));
+            setSelectedIssue(issue);
             setActiveIssue(issue);
           }}
         />
@@ -86,7 +73,7 @@ function App() {
       return <IssueDetailsPage currentPage={currentPage} onNavigate={setCurrentPage} />;
     }
 
-    return <HomePage currentPage={currentPage} onNavigate={setCurrentPage} />;
+    return <HomePage onNavigate={setCurrentPage} />;
   };
 
   const handleCloseOverlay = () => {

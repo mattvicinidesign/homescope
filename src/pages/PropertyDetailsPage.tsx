@@ -1,10 +1,11 @@
 import { useState, useMemo } from 'react';
 import Tabs from '../components/Tabs';
 import SeverityBadge from '../components/SeverityBadge';
-import type { Property } from '../types/property';
 import type { Issue } from '../types/issue';
-
-type Page = 'landing' | 'playground' | 'summary' | 'upload' | 'processing' | 'issueDetails' | 'home' | 'properties' | 'propertyDetails' | 'contacts' | 'settings';
+import type { Page } from '@/types/ui';
+import { getActivePropertyId } from '@/lib/storage/localStorage';
+import { mockProperties } from '@/lib/mocks/homeMocks';
+import { mockPropertyIssues } from '@/lib/mocks/issueMocks';
 
 interface PropertyDetailsPageProps {
   currentPage: Page;
@@ -32,95 +33,18 @@ function IssueCard({ issue, onClick }: IssueCardProps) {
   );
 }
 
-export default function PropertyDetailsPage({ currentPage, onNavigate, onOpenIssue }: PropertyDetailsPageProps) {
+export default function PropertyDetailsPage({ onOpenIssue }: PropertyDetailsPageProps) {
   const [activeTab, setActiveTab] = useState('overview');
 
-  // Get active property from localStorage
-  const activePropertyId = localStorage.getItem('activePropertyId');
-  
-  // Placeholder property data - in production this would come from API
-  const allProperties: Property[] = [
-    {
-      id: '1',
-      address: '123 Main St',
-      city: 'Anytown',
-      state: 'CA',
-      zipCode: '12345',
-      inspectionCount: 2,
-      lastInspectionDate: '2024-01-15',
-    },
-    {
-      id: '2',
-      address: '456 Oak Ave',
-      city: 'Somewhere',
-      state: 'NY',
-      zipCode: '67890',
-      inspectionCount: 1,
-      lastInspectionDate: '2024-01-10',
-    },
-    {
-      id: '3',
-      address: '789 Pine Rd',
-      city: 'Elsewhere',
-      state: 'TX',
-      zipCode: '54321',
-      inspectionCount: 0,
-    },
-  ];
+  // Get active property from storage
+  const activePropertyId = getActivePropertyId();
 
   const property = useMemo(() => {
     if (!activePropertyId) return null;
-    return allProperties.find(p => p.id === activePropertyId) || null;
+    return mockProperties.find(p => p.id === activePropertyId) || null;
   }, [activePropertyId]);
 
-  // Placeholder issue data - in production this would come from API
-  const allIssues: Issue[] = [
-    {
-      id: '1',
-      title: 'Electrical Panel Hazards',
-      severity: 'Safety',
-      description: 'Exposed wiring and outdated circuit breakers present fire and shock risks. Immediate professional evaluation recommended.',
-      details: {
-        whatThisMeans: 'The electrical panel contains exposed wiring and outdated circuit breakers.',
-        whyItMatters: [
-          'Exposed wiring increases the risk of electrical shock and fire hazards',
-          'Outdated breakers may fail to trip during electrical faults',
-        ],
-        recommendation: 'Contact a licensed electrician immediately for evaluation.',
-        location: 'Basement / Electrical panel'
-      }
-    },
-    {
-      id: '2',
-      title: 'Roof Shingle Damage',
-      severity: 'Repair',
-      description: 'Multiple shingles are missing or damaged, which could lead to water infiltration.',
-      details: {
-        whatThisMeans: 'The roof has visible damage that may allow water to enter the home.',
-        whyItMatters: [
-          'Water infiltration can cause interior damage',
-          'May lead to mold growth and structural issues',
-        ],
-        recommendation: 'Have a roofing contractor inspect and repair damaged areas.',
-        location: 'Roof'
-      }
-    },
-    {
-      id: '3',
-      title: 'HVAC System Age',
-      severity: 'Monitor',
-      description: 'The heating and cooling system is approaching the end of its expected lifespan.',
-      details: {
-        whatThisMeans: 'The HVAC system is older and may require replacement soon.',
-        whyItMatters: [
-          'Older systems are less efficient and more prone to breakdowns',
-          'Replacement costs can be significant',
-        ],
-        recommendation: 'Plan for potential replacement within the next few years.',
-        location: 'Basement / Utility room'
-      }
-    },
-  ];
+  const allIssues = mockPropertyIssues;
 
   const handleIssueClick = (issue: Issue) => {
     if (onOpenIssue) {

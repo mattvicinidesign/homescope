@@ -1,269 +1,154 @@
-import { useState, useMemo } from 'react';
-import DataTable from '../components/DataTable';
-import type { Column } from '../components/DataTable';
-import Select from '../components/Select';
-import type { Contact } from '../types/contact';
-
-type Page = 'landing' | 'playground' | 'summary' | 'upload' | 'processing' | 'issueDetails' | 'home' | 'properties' | 'propertyDetails' | 'contacts' | 'settings';
+import { useMemo, useState } from 'react';
+import DataTable from '@/components/DataTable';
+import type { Column } from '@/types/ui';
+import Select from '@/components/Select';
+import type { Contact } from '@/types/contact';
+import { mockContacts } from '@/lib/mocks/contactMocks';
+import { filterContacts, type ContactSort } from '@/lib/contacts/filterContacts';
 
 interface ContactsPageProps {
-  onNavigate: (page: Page) => void;
+  onNavigate: (page: 'contacts') => void;
 }
 
-// Placeholder contact data - in production this would come from API
-const ALL_CONTACTS: Contact[] = [
-  {
-    id: '1',
-    date: '2024-01-15',
-    name: 'John Smith',
-    property: '123 Main St',
-    role: 'Contractor',
-    status: 'Active',
-    contact: 'john@example.com',
-  },
-  {
-    id: '2',
-    date: '2024-01-14',
-    name: 'Sarah Johnson',
-    property: '456 Oak Ave',
-    role: 'Inspector',
-    status: 'Active',
-    contact: 'sarah@example.com',
-  },
-  {
-    id: '3',
-    date: '2024-01-13',
-    name: 'Mike Davis',
-    property: '123 Main St',
-    role: 'Lender',
-    status: 'Pending',
-    contact: 'mike@example.com',
-  },
-  {
-    id: '4',
-    date: '2024-01-12',
-    name: 'Emily Brown',
-    property: '789 Pine Rd',
-    role: 'Buyer',
-    status: 'Active',
-    contact: 'emily@example.com',
-  },
-  {
-    id: '5',
-    date: '2024-01-11',
-    name: 'David Wilson',
-    property: '456 Oak Ave',
-    role: 'Attorney',
-    status: 'Completed',
-    contact: 'david@example.com',
-  },
-];
-
-export default function ContactsPage({ onNavigate }: ContactsPageProps) {
-  // Filter states
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export default function ContactsPage(_props: ContactsPageProps) {
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedProperty, setSelectedProperty] = useState<string>('all');
-  const [selectedRole, setSelectedRole] = useState<string>('all');
-  const [selectedDateRange, setSelectedDateRange] = useState<string>('all');
-  const [sortBy, setSortBy] = useState<'recent' | 'name' | 'property'>('recent');
+  const [property, setProperty] = useState('all');
+  const [role, setRole] = useState('all');
+  const [dateRange, setDateRange] = useState('all');
+  const [sortBy, setSortBy] = useState<ContactSort>('recent');
 
-  // Get unique properties for filter
-  const properties = useMemo(() => {
-    const unique = Array.from(new Set(ALL_CONTACTS.map(c => c.property)));
-    return unique.sort();
-  }, []);
+  const properties = useMemo(
+    () => Array.from(new Set(mockContacts.map(c => c.property))).sort(),
+    []
+  );
 
-  // Filter and sort contacts
-  const filteredAndSortedContacts = useMemo(() => {
-    let filtered = ALL_CONTACTS.filter((contact) => {
-      // Search filter
-      if (searchTerm && !contact.name.toLowerCase().includes(searchTerm.toLowerCase())) {
-        return false;
-      }
+  const contacts = useMemo(
+    () =>
+      filterContacts(mockContacts, {
+        searchTerm,
+        property,
+        role,
+        dateRange,
+        sortBy,
+      }),
+    [searchTerm, property, role, dateRange, sortBy]
+  );
 
-      // Property filter
-      if (selectedProperty !== 'all' && contact.property !== selectedProperty) {
-        return false;
-      }
-
-      // Role filter
-      if (selectedRole !== 'all' && contact.role !== selectedRole) {
-        return false;
-      }
-
-      // Date range filter
-      if (selectedDateRange !== 'all') {
-        const contactDate = new Date(contact.date);
-        const now = new Date();
-        const daysDiff = Math.floor((now.getTime() - contactDate.getTime()) / (1000 * 60 * 60 * 24));
-
-        if (selectedDateRange === '7' && daysDiff > 7) return false;
-        if (selectedDateRange === '30' && daysDiff > 30) return false;
-      }
-
-      return true;
-    });
-
-    // Sort
-    filtered = [...filtered].sort((a, b) => {
-      switch (sortBy) {
-        case 'name':
-          return a.name.localeCompare(b.name);
-        case 'property':
-          return a.property.localeCompare(b.property);
-        case 'recent':
-        default:
-          return new Date(b.date).getTime() - new Date(a.date).getTime();
-      }
-    });
-
-    return filtered;
-  }, [searchTerm, selectedProperty, selectedRole, selectedDateRange, sortBy]);
-
-  const handleResetFilters = () => {
+  const resetFilters = () => {
     setSearchTerm('');
-    setSelectedProperty('all');
-    setSelectedRole('all');
-    setSelectedDateRange('all');
+    setProperty('all');
+    setRole('all');
+    setDateRange('all');
     setSortBy('recent');
   };
 
-  // Table columns
-  const columns: Column<Contact>[] = useMemo(() => [
-    {
-      id: 'date',
-      label: 'Date',
-      render: (contact) => contact.date,
-    },
-    {
-      id: 'name',
-      label: 'Name',
-      render: (contact) => contact.name,
-    },
-    {
-      id: 'property',
-      label: 'Property',
-      render: (contact) => contact.property,
-    },
-    {
-      id: 'role',
-      label: 'Role',
-      render: (contact) => contact.role,
-    },
-    {
-      id: 'status',
-      label: 'Status',
-      render: (contact) => contact.status,
-    },
-    {
-      id: 'contact',
-      label: 'Contact',
-      render: (contact) => contact.contact || '—',
-    },
-  ], []);
+  const columns: Column<Contact>[] = useMemo(
+    () => [
+      { id: 'date', label: 'Date', render: c => c.date },
+      { id: 'name', label: 'Name', render: c => c.name },
+      { id: 'property', label: 'Property', render: c => c.property },
+      { id: 'role', label: 'Role', render: c => c.role },
+      { id: 'status', label: 'Status', render: c => c.status },
+      { id: 'contact', label: 'Contact', render: c => c.contact ?? '—' },
+    ],
+    []
+  );
+
+  const hasActiveFilters =
+    searchTerm || property !== 'all' || role !== 'all' || dateRange !== 'all';
 
   return (
     <main className="max-w-container mx-auto w-full px-container-x py-section-lg flex flex-col gap-6">
-      <section>
-        <div className="flex justify-between items-start mb-4">
-          <div>
-            <h1 className="font-sans text-2xl font-semibold text-text mb-4">Contacts</h1>
-            <p className="font-sans text-base font-normal text-muted">
-              Contractors and collaborators invited to the app.
-            </p>
-          </div>
+      <section className="flex justify-between items-start">
+        <div>
+          <h1 className="text-2xl font-semibold text-text mb-2">Contacts</h1>
+          <p className="text-muted">
+            Contractors and collaborators invited to the app.
+          </p>
+        </div>
+        <button className="px-6 py-3 bg-button-primary-bg text-surface rounded-md hover:opacity-90">
+          Add Contact
+        </button>
+      </section>
+
+      <section className="flex flex-wrap gap-layout items-center">
+        <input
+          type="text"
+          value={searchTerm}
+          onChange={e => setSearchTerm(e.target.value)}
+          placeholder="Search by name..."
+          className="px-4 py-2 border border-border rounded-md bg-surface text-text"
+        />
+
+        <Select
+          label="Property"
+          value={property}
+          onChange={setProperty}
+          options={[
+            { value: 'all', label: 'All Properties' },
+            ...properties.map(p => ({ value: p, label: p })),
+          ]}
+        />
+
+        <Select
+          label="Role"
+          value={role}
+          onChange={setRole}
+          options={[
+            { value: 'all', label: 'All Roles' },
+            { value: 'Buyer', label: 'Buyer' },
+            { value: 'Seller', label: 'Seller' },
+            { value: 'Inspector', label: 'Inspector' },
+            { value: 'Lender', label: 'Lender' },
+            { value: 'Attorney', label: 'Attorney' },
+            { value: 'Contractor', label: 'Contractor' },
+          ]}
+        />
+
+        <Select
+          label="Date Range"
+          value={dateRange}
+          onChange={setDateRange}
+          options={[
+            { value: 'all', label: 'All Time' },
+            { value: '7', label: 'Last 7 Days' },
+            { value: '30', label: 'Last 30 Days' },
+          ]}
+        />
+
+        <Select
+          label="Sort by"
+          value={sortBy}
+          onChange={(value) => setSortBy(value as ContactSort)}
+          options={[
+            { value: 'recent', label: 'Most Recent First' },
+            { value: 'name', label: 'Name (A–Z)' },
+            { value: 'property', label: 'Property (A–Z)' },
+          ]}
+        />
+
+        {hasActiveFilters && (
           <button
-            className="font-sans text-base font-medium px-6 py-3 bg-button-primary-bg text-surface border-0 rounded-md cursor-pointer transition-opacity hover:opacity-90"
+            onClick={resetFilters}
+            className="text-sm font-medium text-text hover:opacity-70"
           >
-            Add Contact
+            Reset Filters
           </button>
-        </div>
+        )}
       </section>
 
-      {/* Filters */}
-      <section className="flex flex-col gap-layout">
-        <div className="flex flex-wrap gap-layout items-center">
-          <input
-            type="text"
-            placeholder="Search by name..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="contacts-filter__search"
-          />
-          <Select
-            label="Property"
-            value={selectedProperty}
-            onChange={setSelectedProperty}
-            options={[
-              { value: 'all', label: 'All Properties' },
-              ...properties.map(p => ({ value: p, label: p })),
-            ]}
-          />
-          <Select
-            label="Role"
-            value={selectedRole}
-            onChange={setSelectedRole}
-            options={[
-              { value: 'all', label: 'All Roles' },
-              { value: 'Buyer', label: 'Buyer' },
-              { value: 'Seller', label: 'Seller' },
-              { value: 'Inspector', label: 'Inspector' },
-              { value: 'Lender', label: 'Lender' },
-              { value: 'Attorney', label: 'Attorney' },
-              { value: 'Contractor', label: 'Contractor' },
-            ]}
-          />
-          <Select
-            label="Date Range"
-            value={selectedDateRange}
-            onChange={setSelectedDateRange}
-            options={[
-              { value: 'all', label: 'All Time' },
-              { value: '7', label: 'Last 7 Days' },
-              { value: '30', label: 'Last 30 Days' },
-            ]}
-          />
-          <Select
-            label="Sort by"
-            value={sortBy}
-            onChange={(value) => setSortBy(value as 'recent' | 'name' | 'property')}
-            options={[
-              { value: 'recent', label: 'Most Recent First' },
-              { value: 'name', label: 'Name (A–Z)' },
-              { value: 'property', label: 'Property (A–Z)' },
-            ]}
-          />
-          {(searchTerm || selectedProperty !== 'all' || selectedRole !== 'all' || selectedDateRange !== 'all') && (
-            <button
-              onClick={handleResetFilters}
-              className="font-sans text-sm font-medium text-text cursor-pointer transition-opacity hover:opacity-70"
-            >
-              Reset Filters
-            </button>
-          )}
-        </div>
-      </section>
-
-      {/* Table */}
       <section>
         <DataTable
           columns={columns}
-          data={filteredAndSortedContacts}
+          data={contacts}
           emptyMessage={
-            searchTerm || selectedProperty !== 'all' || selectedRole !== 'all' || selectedDateRange !== 'all'
+            hasActiveFilters
               ? 'No contacts match your filters.'
               : 'No contacts yet.'
           }
-          emptyActionLabel={
-            searchTerm || selectedProperty !== 'all' || selectedRole !== 'all' || selectedDateRange !== 'all'
-              ? 'Reset Filters'
-              : 'Add Contact'
-          }
-          onEmptyAction={
-            searchTerm || selectedProperty !== 'all' || selectedRole !== 'all' || selectedDateRange !== 'all'
-              ? handleResetFilters
-              : () => {}
-          }
+          emptyActionLabel={hasActiveFilters ? 'Reset Filters' : 'Add Contact'}
+          onEmptyAction={hasActiveFilters ? resetFilters : undefined}
         />
       </section>
     </main>

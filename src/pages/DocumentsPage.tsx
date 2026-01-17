@@ -1,11 +1,11 @@
-type Page = 'landing' | 'playground' | 'summary' | 'upload' | 'processing' | 'issueDetails' | 'home' | 'properties' | 'propertyDetails' | 'contacts' | 'settings';
+import type { Page } from '@/types/ui';
 
 interface DocumentsPageProps {
   currentPage: Page;
   onNavigate: (page: Page) => void;
 }
 
-export default function DocumentsPage({ currentPage, onNavigate }: DocumentsPageProps) {
+export default function DocumentsPage({ onNavigate }: DocumentsPageProps) {
 
   const documents = [
     { id: '1', name: 'Inspection Report - 123 Main St', address: '123 Main St, Anytown, ST', date: '2024-01-15', status: 'Processed' },

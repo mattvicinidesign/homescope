@@ -1,10 +1,5 @@
-import { ReactNode } from 'react';
-import '../styles.css';
-
-interface Tab {
-  id: string;
-  label: string;
-}
+import type { ReactNode } from 'react';
+import type { Tab } from '@/types/ui';
 
 interface TabsProps {
   tabs: Tab[];
@@ -15,21 +10,23 @@ interface TabsProps {
 
 export default function Tabs({ tabs, activeTabId, onTabChange, children }: TabsProps) {
   return (
-    <div className="tabs">
-      <div className="tabs__list">
+    <div className="flex flex-col gap-4">
+      <div className="flex gap-2 border-b border-border">
         {tabs.map((tab) => (
           <button
             key={tab.id}
             onClick={() => onTabChange(tab.id)}
-            className={`tabs__tab ${
-              activeTabId === tab.id ? 'tabs__tab--active' : ''
+            className={`text-base font-medium bg-transparent border-0 border-b-2 py-3 px-4 cursor-pointer transition-all duration-200 -mb-px ${
+              activeTabId === tab.id
+                ? 'border-primary text-text'
+                : 'border-transparent text-muted hover:text-text hover:opacity-80'
             }`}
           >
             {tab.label}
           </button>
         ))}
       </div>
-      <div className="tabs__content">
+      <div className="flex flex-col">
         {children}
       </div>
     </div>
